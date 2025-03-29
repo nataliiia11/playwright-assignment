@@ -1,7 +1,29 @@
-
-# Playwright
+# Node modules
 node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+npm-debug.log
+package-lock.json
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+*.trace.zip
+*.png
+*.webm
+
+# Allure report and results
+allure-report/
+allure-results/
+
+# VS Code and JetBrains IDE settings
+.vscode/
+.idea/
+
+# Environment files (если будут)
+.env
+.env.local
+.env.test
+.env.*
+
+# macOS / Linux / Windows system files
+.DS_Store
+Thumbs.db
