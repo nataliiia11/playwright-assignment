@@ -1,0 +1,140 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: Sweden can be selected from the dropdown menu
+- Location: /Users/nataliiaazarnykh/Documents/playwright-test/tests/features/signUp/countryField.spec.ts:31:7
+
+# Error details
+
+```
+Error: locator.click: Test ended.
+Call log:
+  - waiting for getByRole('option', { name: 'Sweden' })
+    - locator resolved to <li role="option" aria-checked="false" aria-selected="false" id="downshift-:r4:-item-12" class="sc-eb60ccfc-0 sc-b2fd84a5-0 sc-81a14cdd-2 epvrtn dcTVNz bZOzcO">…</li>
+  - attempting click action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - performing click action
+
+    at /Users/nataliiaazarnykh/Documents/playwright-test/tests/features/signUp/countryField.spec.ts:44:28
+    at /Users/nataliiaazarnykh/Documents/playwright-test/tests/features/signUp/countryField.spec.ts:42:5
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@playwright/test';
+   2 | import { generateUserData } from '../../utils/testData';
+   3 | import { setupSignUpPrecondition } from '../../utils/setup';
+   4 | import { getSignUpLocators } from '../../utils/locators/signUpLocators';
+   5 | import { allure } from 'allure-playwright';
+   6 |
+   7 | test.beforeEach(async ({ page }, testInfo) => {
+   8 |     await setupSignUpPrecondition(page, testInfo);
+   9 | });
+   10 |
+   11 | test('Country field is clickable and opens', async ({ page }, testInfo) => {
+   12 |     testInfo.annotations.push({ type: 'TC', description: 'TC-1.1' });
+   13 |     testInfo.annotations.push({ type: 'tag', description: 'regression' });
+   14 |     testInfo.annotations.push({ type: 'feature', description: 'signup' });
+   15 |   
+   16 |     const l = getSignUpLocators(page);
+   17 |   
+   18 |     await test.step('Check that the Country field is visible', async () => {
+   19 |       await expect(l.countryInput).toBeVisible();
+   20 |     });
+   21 |   
+   22 |     await test.step('Click on the Country field to open the dropdown', async () => {
+   23 |       await l.countryInput.click({ force: true });
+   24 |     });
+   25 |   
+   26 |     await test.step('Verify that "Sweden" appears in the dropdown', async () => {
+   27 |       await expect(l.swedenOption).toBeVisible();
+   28 |     });
+   29 |   });
+   30 |
+   31 |   test('Sweden can be selected from the dropdown menu', async ({ page }, testInfo) => {
+   32 |     const l = getSignUpLocators(page);
+   33 |     testInfo.annotations.push({ type: 'TC', description: 'TC-1.2' });
+   34 |     testInfo.annotations.push({ type: 'tag', description: 'regression' });
+   35 |     testInfo.annotations.push({ type: 'feature', description: 'signup' });
+   36 |
+   37 |   
+   38 |     await test.step('Click on the Country field', async () => {
+   39 |       await l.countryInput.click();
+   40 |     });
+   41 |   
+   42 |     await test.step('Select "Sweden" from the dropdown', async () => {
+   43 |       await expect(l.swedenOption).toBeVisible();
+>  44 |       await l.swedenOption.click();
+      |                            ^ Error: locator.click: Test ended.
+   45 |     });
+   46 |   
+   47 |     await test.step('Verify that "Sweden" is selected', async () => {
+   48 |       await expect(l.countryInput).toHaveValue('Sweden');
+   49 |     });
+   50 |   });
+   51 |     
+   52 |   test('Country field could be filled manually', async ({ page }, testInfo) => {
+   53 |     testInfo.annotations.push({ type: 'TC', description: 'TC-1.4' });
+   54 |   
+   55 |     const l = getSignUpLocators(page);
+   56 |   
+   57 |     await test.step('Ensure the Country field is visible', async () => {
+   58 |       await expect(l.countryInput).toBeVisible();
+   59 |     });
+   60 |   
+   61 |     await test.step('Manually type "Sweden" into the Country field', async () => {
+   62 |       await l.countryInput.fill('');
+   63 |       await l.countryInput.fill('Sweden');
+   64 |       await l.countryInput.press('Enter');
+   65 |     });
+   66 |   
+   67 |     await test.step('Verify that the Country field value is "Sweden"', async () => {
+   68 |       await expect(l.countryInput).toHaveValue('Sweden');
+   69 |     });
+   70 |   });
+   71 |     
+   72 |   test('Form submits successfully with Sweden selected', async ({ page }, testInfo) => {
+   73 |     testInfo.annotations.push({ type: 'TC', description: 'TC-1.7' });
+   74 |     testInfo.annotations.push({ type: 'tag', description: 'regression' });
+   75 |     testInfo.annotations.push({ type: 'feature', description: 'signup' });
+   76 |     allure.severity('critical');
+   77 |   
+   78 |     const user = generateUserData();
+   79 |     const l = getSignUpLocators(page);
+   80 |   
+   81 |     await test.step('Select "Sweden" from the Country dropdown', async () => {
+   82 |       await l.countryInput.fill('');
+   83 |       await l.countryInput.fill('Sweden');
+   84 |       await expect(l.swedenOption).toBeVisible();
+   85 |       await l.swedenOption.click();
+   86 |       await expect(l.countryInput).toHaveValue('Sweden');
+   87 |     });
+   88 |   
+   89 |     await test.step('Fill in the company name', async () => {
+   90 |       await l.companyNameInput.fill(user.companyName);
+   91 |     });
+   92 |   
+   93 |     await test.step('Select "DATEV" in "How did you hear about us?"', async () => {
+   94 |       await l.referralInput.click();
+   95 |       await l.referralOption('DATEV').click();
+   96 |     });
+   97 |   
+   98 |     await test.step('Submit the form', async () => {
+   99 |       await l.createAccountButton.click();
+  100 |     });
+  101 |   
+  102 |     await test.step('Verify email confirmation screen is visible', async () => {
+  103 |       await expect(l.verificationMessage).toBeVisible();
+  104 |     });
+  105 |   });
+  106 |   
+```
