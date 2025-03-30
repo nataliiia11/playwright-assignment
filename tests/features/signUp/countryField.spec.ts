@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
   await setupSignUpPrecondition(page);
 });
 
-test('Country field is clickable and opens', async ({ page }, testInfo) => {
+test('Verify that the country field is clickable and opens and "Sweden" is visible in the opened menu', async ({ page }, testInfo) => {
   testInfo.annotations.push({ type: 'TC', description: 'TC-1.1' });
   testInfo.annotations.push({ type: 'tag', description: 'regression' });
   testInfo.annotations.push({ type: 'feature', description: 'signup' });
@@ -27,7 +27,7 @@ test('Country field is clickable and opens', async ({ page }, testInfo) => {
   });
 });
 
-test('Sweden can be selected from the dropdown menu', async ({ page }, testInfo) => {
+test('Verify that the Sweden can be selected from the dropdown menu', async ({ page }, testInfo) => {
   testInfo.annotations.push({ type: 'TC', description: 'TC-1.2' });
   testInfo.annotations.push({ type: 'tag', description: 'regression' });
   testInfo.annotations.push({ type: 'feature', description: 'signup' });
@@ -49,7 +49,7 @@ test('Sweden can be selected from the dropdown menu', async ({ page }, testInfo)
   });
 });
 
-test('Country field could be filled manually', async ({ page }, testInfo) => {
+test('Verify that the country field could be filled manually', async ({ page }, testInfo) => {
   testInfo.annotations.push({ type: 'TC', description: 'TC-1.4' });
   const l = getSignUpLocators(page);
 
@@ -68,7 +68,7 @@ test('Country field could be filled manually', async ({ page }, testInfo) => {
   });
 });
 
-test('Form submits successfully with Sweden selected', async ({ page }, testInfo) => {
+test('Select Sweden, fill other fields with valid data and confirm that the form is sent correctly', async ({ page }, testInfo) => {
   testInfo.annotations.push({ type: 'TC', description: 'TC-1.7' });
   testInfo.annotations.push({ type: 'tag', description: 'regression' });
   testInfo.annotations.push({ type: 'feature', description: 'signup' });
