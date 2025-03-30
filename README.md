@@ -1,6 +1,10 @@
 # 🧪 Playwright E2E Tests with Allure Reporting
 
-This repository contains E2E tests written using [Playwright](https://playwright.dev/) with integrated [Allure](https://docs.qameta.io/allure/) reporting and GitHub Actions for CI.
+This repository contains end-to-end tests built with [Playwright](https://playwright.dev/), written in TypeScript, with:
+
+- 📊 Allure reporting
+- 🤖 GitHub Actions CI/CD
+- 🎯 Code quality via ESLint & Prettier
 
 ---
 
@@ -22,84 +26,117 @@ npm ci
 npx playwright install --with-deps
 ```
 
-### 4. Run tests
+---
+
+## ✅ Run tests
+
 ```bash
 npm run test
 ```
 
-### 5. Generate Allure report
+To run only a specific test file:
+```bash
+npx playwright test tests/features/signUp/countryField.spec.ts
+```
+
+---
+
+## 📊 Allure Reporting
+
+### Generate Allure report
 ```bash
 npm run allure:generate
 ```
 
-### 6. Open Allure report in browser
+### Open Allure report locally
 ```bash
 npm run allure:open
 ```
+
+> Allure CLI is installed automatically in CI, or can be added globally via:
+> `npm install -g allure-commandline`
 
 ---
 
 ## 📦 Available Scripts
 
-| Script              | Description                          |
-|---------------------|--------------------------------------|
-| `npm run test`      | Run all Playwright tests             |
-| `npm run allure:generate` | Generate Allure HTML report   |
-| `npm run allure:open`     | Open Allure report locally     |
-| `npm run test:report`     | Run tests + generate + open report |
+| Script                     | Description                          |
+|----------------------------|--------------------------------------|
+| `npm run test`             | Run all Playwright tests             |
+| `npm run test:report`      | Run tests + generate + open report   |
+| `npm run lint`             | Run ESLint on `.ts` files            |
+| `npm run lint:fix`         | Run ESLint and auto-fix issues       |
+| `npm run format`           | Format code using Prettier           |
+| `npm run allure:generate`  | Generate Allure HTML report          |
+| `npm run allure:open`      | Open Allure report in browser        |
 
 ---
 
-## ⚙️ Tech Stack
+## 🤖 CI/CD (GitHub Actions)
 
-- [Playwright](https://playwright.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Allure Playwright](https://docs.qameta.io/allure/)
-- [GitHub Actions](https://github.com/features/actions)
+GitHub Actions automatically:
 
----
+- Runs tests on push and PR
+- Installs Allure CLI
+- Generates Allure report
+- Uploads report as artifact
 
-## 🤖 CI/CD
-
-This project uses **GitHub Actions** to:
-
-- Run tests on every push and PR
-- Generate Allure report
-- Upload report as downloadable artifact
-
-Workflow config: `.github/workflows/playwright.yml`
+Config: `.github/workflows/playwright.yml`
 
 ---
 
-## 📁 Project Structure
+## 🧠 Project Structure
 
 ```
-📦 project-root
-├── tests/               # All feature-based test files
-│   └── features/
-├── utils/               # Data generators, locators, setup
-├── .github/workflows/   # GitHub Actions workflow
-├── playwright.config.ts # Playwright config
-├── package.json         # Project scripts and dependencies
-└── tsconfig.json        # TypeScript config
+📦 root
+├── tests/
+│   ├── features/              # Feature-based tests
+│   │   └── signUp/
+│   ├── utils/
+│   │   ├── locators/          # Page locators (modular)
+│   │   ├── testData.ts        # Fake user data generation
+│   │   ├── constants.ts       # URLs, constants, etc.
+│   │   └── setup.ts           # Precondition logic
+├── .github/workflows/         # GitHub Actions
+├── eslint.config.mjs          # ESLint config (flat config)
+├── .prettierrc.json           # Prettier rules
+├── playwright.config.ts       # Playwright setup
+├── package.json               # Scripts and dependencies
+└── README.md
 ```
 
 ---
 
-## 📄 .gitignore
+## 🔍 Linting & Formatting
 
-Make sure you ignore the following folders:
+- ESLint (flat config)
+- Prettier with consistent rules
+- Git hooks via Husky (optional)
+- Can auto-fix on save (VSCode)
+
+---
+
+## 🧾 .gitignore
+
+Make sure these are ignored:
+
 ```
 node_modules/
-playwright-report/
+dist/
 test-results/
+playwright-report/
 allure-results/
 allure-report/
+.eslintcache
 ```
 
 ---
 
 ## 💬 Feedback
 
-Feel free to open an issue or PR if you find bugs or have suggestions 🙌
+Found a bug? Want to improve the test structure or automation flow?  
+Open an [issue](https://github.com/nataliiia11/playwright-assignment/issues) or PR 🙌
 
+---
+
+Made with ❤️ using Playwright + Allure + GitHub Actions.
