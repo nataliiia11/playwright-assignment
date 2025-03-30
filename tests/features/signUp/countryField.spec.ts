@@ -38,8 +38,10 @@ test('Sweden can be selected from the dropdown menu', async ({ page }, testInfo)
   });
 
   await test.step('Select "Sweden" from the dropdown', async () => {
+    await l.countryInput.fill('Sweden');
     await expect(l.swedenOption).toBeVisible();
-    await l.swedenOption.click();
+    await l.countryInput.press('ArrowDown');
+    await l.countryInput.press('Enter');
   });
 
   await test.step('Verify that "Sweden" is selected', async () => {
@@ -111,3 +113,4 @@ test('Form submits successfully with Sweden selected', async ({ page }, testInfo
     await expect(l.verificationMessage).toBeVisible();
   });
 });
+

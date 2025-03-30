@@ -20,7 +20,6 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'], // for HTML
@@ -31,9 +30,14 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
-
+    trace: 'retain-on-failure',
+    browserName: 'firefox',
+    viewport: { width: 1280, height: 720 },
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
@@ -45,7 +49,7 @@ export default defineConfig({
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { browserName: 'firefox' },
     },
 
     {
@@ -73,6 +77,7 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
+  workers: 1
 
   /* Run your local dev server before starting the tests */
   // webServer: {
