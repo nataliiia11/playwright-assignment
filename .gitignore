@@ -1,29 +1,44 @@
 # Node modules
 node_modules/
-npm-debug.log
-package-lock.json
 
-# Playwright test artifacts
-test-results/
+# Build output
+dist/
+out/
+build/
+
+# Allure reports
+allure-results/
+allure-report/
+
+# Playwright artifacts
 playwright-report/
+test-results/
 *.trace.zip
 *.png
 *.webm
 
-# Allure report and results
-allure-report/
-allure-results/
+# ESLint cache
+.eslintcache
 
-# VS Code and JetBrains IDE settings
+# Prettier log (если включён debug)
+.prettierlog
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# VSCode settings (опционально, если персональные)
 .vscode/
-.idea/
 
-# Environment files (если будут)
+# Environment variables
 .env
-.env.local
-.env.test
-.env.*
+.env.*.local
 
-# macOS / Linux / Windows system files
+# OS-generated files
 .DS_Store
 Thumbs.db
+
+# Husky
+.husky/_/

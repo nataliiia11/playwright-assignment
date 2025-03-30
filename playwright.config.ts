@@ -25,7 +25,7 @@ export default defineConfig({
   reporter: [
     ['html'], // for HTML
     ['list'], // for consoöe
-    ['allure-playwright'] // for Allure
+    ['allure-playwright'], // for Allure
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
